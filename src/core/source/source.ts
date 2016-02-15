@@ -84,6 +84,7 @@ export class Source implements IItemLayout {
     this._type = Number(props['type']);
 
     this._xmlparams = props;
+    iItem.setsceneID(this._sceneId);
   }
 
   /**

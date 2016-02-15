@@ -12,6 +12,8 @@ export class Item {
   private static itemSlotMap: string[] = [];
   private static islockedSourceSlot: boolean = false;
 
+  private static sceneID: number = 0;
+
   /** Prepare an item for manipulation */
   static attach(itemID: string): number {
     let slot = Item.itemSlotMap.indexOf(itemID);
@@ -23,10 +25,17 @@ export class Item {
       Item.lastSlot = slot;
       Item.itemSlotMap[slot] = itemID;
       if (!Environment.isSourcePlugin()) {
-        exec('SearchVideoItem' +
-          (String(slot) === '0' ? '' : (slot + 1)),
-          itemID
-        );
+        if (Item.sceneID > 11) {
+          exec('AttachVideoItem' +
+            (String(slot) === '0' ? '' : (slot + 1)),
+            itemID, '1'
+          );
+        } else {
+          exec('SearchVideoItem' +
+            (String(slot) === '0' ? '' : (slot + 1)),
+            itemID
+          );
+        }
       } else {
         exec('AttachVideoItem' +
           (String(slot) === '0' ? '' : (slot + 1)),
@@ -35,6 +44,11 @@ export class Item {
       }
     }
     return slot;
+  }
+
+  /**  */
+  static setsceneID(sceneID: number) {
+    Item.sceneID = sceneID;
   }
 
   /** used for source plugins. lock an id to slot 0 */

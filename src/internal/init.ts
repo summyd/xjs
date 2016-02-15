@@ -90,10 +90,8 @@ function getCurrentSourceId(): Promise<any> {
         result => {
           let id = decodeURIComponent(result);
           Item.setBaseId(id);
+          Item.lockSourceSlot(id);
 
-          if (Environment.isSourcePlugin()) {
-            Item.lockSourceSlot(id);
-          }
           resolve();
         });
     } else {
